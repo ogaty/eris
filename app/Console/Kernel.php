@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\WunderlistListCommand::class,
         Commands\WunderlistListlistCommand::class,
         Commands\LtCommand::class,
+        Commands\GithubIssuelistCommand::class,
     ];
 
     /**
@@ -30,7 +31,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // for utc.
-        $schedule->command('eris:friday')->weekly()->wednesdays()->at('3:00');
+        $schedule->command('eris:friday')->weekly()->wednesdays()->at('12:00');
         $schedule->command('eris:weather')->daily()->dailyAt('21:00');
     }
 

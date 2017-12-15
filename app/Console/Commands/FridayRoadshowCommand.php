@@ -41,6 +41,8 @@ class FridayRoadshowCommand extends Command
      */
     public function handle()
     {
+        putenv("NSS_SDB_USE_CACHE=yes");
+
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
