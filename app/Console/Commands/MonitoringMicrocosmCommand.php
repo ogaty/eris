@@ -49,7 +49,7 @@ class MonitoringMicrocosmCommand extends Command
         $info = curl_getinfo($curl);
 
         if ($info['http_code'] != 200) {
-            logger(curl_error($curl));
+            logger(var_export(curl_error($curl), true));
             $data = [
                     'text' => $url . ' の調子がおかしいようです。ご確認ください。',
                     'username' => 'eris'

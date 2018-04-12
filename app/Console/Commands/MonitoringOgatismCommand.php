@@ -38,7 +38,7 @@ class MonitoringOgatismCommand extends Command
      */
     public function handle()
     {
-        $url = 'http://ogatism.com/wordpre/';
+        $url = 'http://ogatism.jp/';
         putenv("NSS_SDB_USE_CACHE=yes");
         $curl = curl_init();
 
@@ -50,7 +50,7 @@ class MonitoringOgatismCommand extends Command
         $info = curl_getinfo($curl);
 
         if (($info['http_code'] != 200) && ($info['http_code'] != 302)) {
-            logger(curl_error($curl));
+            logger(var_export(curl_error($curl), true));
             $data = [
                     'text' => $url . ' の調子がおかしいようです。ご確認ください。',
                     'username' => 'eris'
