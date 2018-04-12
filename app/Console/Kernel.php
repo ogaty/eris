@@ -20,6 +20,10 @@ class Kernel extends ConsoleKernel
         Commands\WunderlistListlistCommand::class,
         Commands\LtCommand::class,
         Commands\GithubIssuelistCommand::class,
+        Commands\MonitoringOgatismCommand::class,
+        Commands\MonitoringMakiCommand::class,
+        Commands\MonitoringMicrocosmCommand::class,
+        Commands\MonitoringMoccumaCommand::class,
     ];
 
     /**
@@ -31,8 +35,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // for utc.
-        $schedule->command('eris:friday')->weekly()->wednesdays()->at('12:00');
-        $schedule->command('eris:weather')->daily()->dailyAt('21:00');
+        $schedule->command('eris:friday')->timezone('Asia/Tokyo')->weekly()->wednesdays()->at('21:00');
+        $schedule->command('eris:weather')->timezone('Asia/Tokyo')->daily()->dailyAt('6:00');
+        $schedule->command('monitor:ogatism')->hourly();
+        $schedule->command('monitor:maki')->hourly();
+        $schedule->command('monitor:microcosm')->hourly();
+        $schedule->command('monitor:moccuma')->hourly();
     }
 
     /**
