@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
         Commands\MonitoringMakiCommand::class,
         Commands\MonitoringMicrocosmCommand::class,
         Commands\MonitoringMoccumaCommand::class,
+        Commands\PrTimesCommand::class,
+        Commands\PrTimesRankingCommand::class,
     ];
 
     /**
@@ -34,9 +36,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // for utc.
         $schedule->command('eris:friday')->timezone('Asia/Tokyo')->weekly()->wednesdays()->at('21:00');
         $schedule->command('eris:weather')->timezone('Asia/Tokyo')->daily()->dailyAt('6:00');
+        $schedule->command('eris:weather')->timezone('Asia/Tokyo')->daily()->dailyAt('9:00');
         $schedule->command('monitor:ogatism')->hourly();
         $schedule->command('monitor:maki')->hourly();
         $schedule->command('monitor:microcosm')->hourly();

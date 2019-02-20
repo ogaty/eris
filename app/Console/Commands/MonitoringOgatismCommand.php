@@ -38,7 +38,7 @@ class MonitoringOgatismCommand extends Command
      */
     public function handle()
     {
-        $url = 'http://ogatism.jp/';
+        $url = 'https://ogatism.jp/';
         putenv("NSS_SDB_USE_CACHE=yes");
         $curl = curl_init();
 
@@ -50,9 +50,10 @@ class MonitoringOgatismCommand extends Command
         $info = curl_getinfo($curl);
 
         if (($info['http_code'] != 200) && ($info['http_code'] != 302)) {
+            if (!preg_match('/Could not resolve host/', curl_error($curl))) {
             logger(var_export(curl_error($curl), true));
             $data = [
-                    'text' => $url . ' の調子がおかしいようです。ご確認ください。',
+                    'text' => $url . ' の調子がおかしいようです。ご確認ください。(' . $info['http_code'] . ')',
                     'username' => 'eris'
                 ];
             $json = json_encode($data);
@@ -60,6 +61,7 @@ class MonitoringOgatismCommand extends Command
 
             $slack = new Slack();
             $slack->send($msg);
+            }
         }
         curl_close($curl);
     }

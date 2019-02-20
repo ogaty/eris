@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Util\Slack;
 
 class MonitoringMicrocosmCommand extends Command
 {
@@ -48,10 +49,11 @@ class MonitoringMicrocosmCommand extends Command
         $response = curl_exec($curl);
         $info = curl_getinfo($curl);
 
-        if ($info['http_code'] != 200) {
+        if ($info['http_code'] != 200 && $info['http_code'] != 304) {
+          if (!preg_match('/Could not resolve host/', curl_error($curl))) {
             logger(var_export(curl_error($curl), true));
             $data = [
-                    'text' => $url . ' の調子がおかしいようです。ご確認ください。',
+                    'text' => $url . ' の調子がおかしいようです。ご確認ください。(' . $info['http_code'] . ')',
                     'username' => 'eris'
                 ];
             $json = json_encode($data);
@@ -59,6 +61,8 @@ class MonitoringMicrocosmCommand extends Command
 
             $slack = new Slack();
             $slack->send($msg);
+
+          }
         }
         curl_close($curl);
     }
